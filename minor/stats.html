@@ -158,6 +158,7 @@
 
         .graph-container {
             background: rgba(255, 255, 255, 0.1);
+            color: #fff;
             padding: 2rem;
             border-radius: 12px;
             margin-bottom: 1.5rem;
@@ -170,6 +171,8 @@
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
             text-align: center;
+            opacity: 0.9;
+            
         }
 
         .graph-grid {
@@ -191,7 +194,7 @@
     </a>
 
     <div class="stats-container">
-        <h1 class="stats-title">Study Statistics</h1>
+        <h1 class="stats-title">Statistics</h1>
 
         <div class="stats-grid">
             <div class="stats-card">
@@ -225,14 +228,14 @@
 
         <div class="graph-grid">
             <div class="graph-container">
-                <h3>Daily Study Trend</h3>
+                <h3 style="color: white;">Daily Study Trend</h3>
                 <div class="graph-wrapper">
                     <canvas id="dailyTrendChart"></canvas>
                 </div>
             </div>
 
             <div class="graph-container">
-                <h3>Time Distribution</h3>
+                <h3 style="color: white;">Time Distribution</h3>
                 <div class="graph-wrapper">
                     <canvas id="timeDistributionChart"></canvas>
                 </div>
@@ -240,14 +243,14 @@
         </div>
 
         <div class="graph-container">
-            <h3>Weekly Progress</h3>
+            <h3 style="color: white;">Weekly Progress</h3>
             <div class="graph-wrapper">
                 <canvas id="weeklyProgressChart"></canvas>
             </div>
         </div>
 
         <div class="graph-container">
-            <h3>Monthly Overview</h3>
+            <h3 style="color: white;">Monthly Overview</h3>
             <div class="graph-wrapper">
                 <canvas id="monthlyOverviewChart"></canvas>
             </div>

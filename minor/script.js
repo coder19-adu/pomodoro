@@ -70,23 +70,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsBtn = document.getElementById('settingsBtn');
     const settingsPanel = document.getElementById('settingsPanel');
     const closeSettingsBtn = document.getElementById('closeSettings');
+    const overlay = document.getElementById('overlay');
 
     // Settings panel functionality
     settingsBtn.addEventListener('click', () => {
-        settingsPanel.classList.add('active');
-        loadSettings();
-        updateSettingsInputs();
+        if (settingsPanel.classList.contains('active')) {
+            settingsPanel.classList.remove('active');
+            overlay.classList.remove('active');
+        } else {
+            settingsPanel.classList.add('active');
+            overlay.classList.add('active');
+            loadSettings();
+            updateSettingsInputs();
+        }
     });
 
     closeSettingsBtn.addEventListener('click', () => {
         settingsPanel.classList.remove('active');
+        overlay.classList.remove('active');
     });
 
     // Close settings panel when pressing Escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && settingsPanel.classList.contains('active')) {
             settingsPanel.classList.remove('active');
+            overlay.classList.remove('active');
         }
+    });
+
+    // Close panel when clicking overlay
+    overlay.addEventListener('click', () => {
+        if (settingsPanel.classList.contains('active')) {
+            settingsPanel.classList.remove('active');
+        }
+        overlay.classList.remove('active');
     });
 
     function updateSettingsInputs() {
@@ -213,9 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         startButton.disabled = false;
                         stopButton.disabled = true;
                         
-                        // Play notification sound
-                        new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3').play();
-                        
                         // Update statistics when a pomodoro is completed
                         if (!isBreak) {
                             updateStats(modes.pomodoro);
@@ -276,9 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             watchDisplay.classList.remove('active');
                             startButton.disabled = false;
                             stopButton.disabled = true;
-                            
-                            // Play notification sound
-                            new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3').play();
                             
                             // Handle automatic breaks
                             if (!isBreak) {
