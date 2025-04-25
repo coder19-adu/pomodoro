@@ -52,15 +52,55 @@
             <button id="restart" class="restart-btn" title="Restart">
                 <i class="fas fa-redo"></i>
             </button>
-            <a href="settings.html" class="settings-btn" title="Settings">
-                <i class="fas fa-cog"></i>
-            </a>
             <a href="stats.html" class="stats-btn" title="Statistics">
                 <i class="fas fa-chart-bar"></i>
+                <span>Statistics</span>
             </a>
             <a href="music.html" class="music-btn" title="Music">
-                <i class="fas fa-play-circle"></i>
+                <i class="fas fa-music"></i>
+                <span>Music</span>
             </a>
+            <button id="settingsBtn" class="settings-btn" title="Settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </button>
+        </div>
+
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-header">
+                <h2>Timer Settings</h2>
+                <button id="closeSettings" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="settings-form">
+                <div class="setting-group">
+                    <label for="pomodoroTime">Pomodoro Duration (minutes)</label>
+                    <input type="number" id="pomodoroTime" min="1" max="60" value="25">
+                </div>
+
+                <div class="setting-group">
+                    <label for="shortBreakTime">Short Break Duration (minutes)</label>
+                    <input type="number" id="shortBreakTime" min="1" max="30" value="5">
+                </div>
+
+                <div class="setting-group">
+                    <label for="longBreakTime">Long Break Duration (minutes)</label>
+                    <input type="number" id="longBreakTime" min="1" max="60" value="15">
+                </div>
+
+                <div class="setting-actions">
+                    <button id="saveSettings" class="save-btn">
+                        <i class="fas fa-save"></i>
+                        Save Settings
+                    </button>
+                    <button id="resetSettings" class="reset-btn">
+                        <i class="fas fa-undo"></i>
+                        Reset to Default
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="tasks-section">

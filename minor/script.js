@@ -30,39 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let isBreak = false;
     let currentMode = 'pomodoro';
     
-    // Load timer settings
-    const timerSettings = JSON.parse(localStorage.getItem('timerSettings')) || {
-        pomodoro: 25,
-        shortBreak: 5,
-        longBreak: 15
-    };
+    // Timer Settings
+    let pomodoroTime = 25;
+    let shortBreakTime = 5;
+    let longBreakTime = 15;
     
     // Timer mode settings
-    const modes = {
-        pomodoro: timerSettings.pomodoro,
-        shortBreak: timerSettings.shortBreak,
-        longBreak: timerSettings.longBreak
+    let modes = {
+        pomodoro: pomodoroTime,
+        shortBreak: shortBreakTime,
+        longBreak: longBreakTime
     };
-    
+
+    // Load settings immediately when the page loads
+    loadSettings();
+
     // Initialize timer display
     updateDisplay();
-    
-    // Update timer settings when returning from settings page
-    window.addEventListener('focus', () => {
-        const newSettings = JSON.parse(localStorage.getItem('timerSettings'));
-        if (newSettings) {
-            modes.pomodoro = newSettings.pomodoro;
-            modes.shortBreak = newSettings.shortBreak;
-            modes.longBreak = newSettings.longBreak;
-            
-            // Update current timer if not running
-            if (!isRunning) {
-                minutes = modes[currentMode];
-                seconds = 0;
-                updateDisplay();
-            }
-        }
-    });
     
     // Event Listeners for mode buttons
     pomodoroButton.addEventListener('click', () => setMode('pomodoro'));
@@ -82,24 +66,116 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Listen for settings changes
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'timerSettings') {
-            const newSettings = JSON.parse(e.newValue);
-            modes.pomodoro = newSettings.pomodoro;
-            modes.shortBreak = newSettings.shortBreak;
-            modes.longBreak = newSettings.longBreak;
-            
-            // Update current timer if not running
-            if (!isRunning) {
-                const activeMode = document.querySelector('.mode-buttons button.active').id;
-                minutes = modes[activeMode];
-                seconds = 0;
-                updateDisplay();
-            }
+    // Settings elements
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsPanel = document.getElementById('settingsPanel');
+    const closeSettingsBtn = document.getElementById('closeSettings');
+
+    // Settings panel functionality
+    settingsBtn.addEventListener('click', () => {
+        settingsPanel.classList.add('active');
+        loadSettings();
+        updateSettingsInputs();
+    });
+
+    closeSettingsBtn.addEventListener('click', () => {
+        settingsPanel.classList.remove('active');
+    });
+
+    // Close settings panel when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && settingsPanel.classList.contains('active')) {
+            settingsPanel.classList.remove('active');
         }
     });
-    
+
+    function updateSettingsInputs() {
+        const pomodoroInput = document.getElementById('pomodoroTime');
+        const shortBreakInput = document.getElementById('shortBreakTime');
+        const longBreakInput = document.getElementById('longBreakTime');
+
+        if (pomodoroInput && shortBreakInput && longBreakInput) {
+            pomodoroInput.value = pomodoroTime;
+            shortBreakInput.value = shortBreakTime;
+            longBreakInput.value = longBreakTime;
+        }
+    }
+
+    // Save settings
+    const saveSettingsBtn = document.getElementById('saveSettings');
+    if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+            const pomodoroInput = document.getElementById('pomodoroTime');
+            const shortBreakInput = document.getElementById('shortBreakTime');
+            const longBreakInput = document.getElementById('longBreakTime');
+
+            if (pomodoroInput && shortBreakInput && longBreakInput) {
+                // Get values and ensure they are numbers
+                const newPomodoroTime = parseInt(pomodoroInput.value);
+                const newShortBreakTime = parseInt(shortBreakInput.value);
+                const newLongBreakTime = parseInt(longBreakInput.value);
+
+                // Only update if values are valid numbers
+                if (!isNaN(newPomodoroTime) && !isNaN(newShortBreakTime) && !isNaN(newLongBreakTime)) {
+                    pomodoroTime = Math.max(1, Math.min(60, newPomodoroTime));
+                    shortBreakTime = Math.max(1, Math.min(30, newShortBreakTime));
+                    longBreakTime = Math.max(1, Math.min(60, newLongBreakTime));
+
+                    // Update the inputs with validated values
+                    pomodoroInput.value = pomodoroTime;
+                    shortBreakInput.value = shortBreakTime;
+                    longBreakInput.value = longBreakTime;
+
+                    saveSettings();
+                    updateTimerDisplay();
+                    
+                    // Show notification
+                    const notification = document.getElementById('settingsNotification');
+                    if (notification) {
+                        notification.style.display = 'block';
+                        setTimeout(() => {
+                            notification.style.display = 'none';
+                        }, 3000);
+                    }
+                }
+            }
+        });
+    }
+
+    // Reset settings
+    const resetSettingsBtn = document.getElementById('resetSettings');
+    if (resetSettingsBtn) {
+        resetSettingsBtn.addEventListener('click', () => {
+            resetSettings();
+            updateSettingsInputs();
+            
+            // Show notification
+            const notification = document.getElementById('settingsNotification');
+            if (notification) {
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+        });
+    }
+
+    // Add input validation
+    const timerInputs = document.querySelectorAll('.setting-group input[type="number"]');
+    timerInputs.forEach(input => {
+        input.addEventListener('input', (e) => {
+            let value = parseInt(e.target.value);
+            if (isNaN(value)) {
+                value = '';
+            } else {
+                // Ensure value is within range
+                const max = input.id === 'shortBreakTime' ? 30 : 60;
+                value = Math.max(1, Math.min(max, value));
+            }
+            e.target.value = value;
+        });
+    });
+
     function setMode(mode) {
         // Remove active class from all buttons
         pomodoroButton.classList.remove('active');
@@ -109,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add active class to selected button
         document.getElementById(mode).classList.add('active');
         
-        // Set timer values
+        // Set timer values based on current settings
         minutes = modes[mode];
         seconds = 0;
         updateDisplay();
@@ -434,5 +510,65 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Save updated stats
         localStorage.setItem('pomodoroStats', JSON.stringify(stats));
+    }
+
+    // Load settings from localStorage
+    function loadSettings() {
+        const savedPomodoroTime = localStorage.getItem('pomodoroTime');
+        const savedShortBreakTime = localStorage.getItem('shortBreakTime');
+        const savedLongBreakTime = localStorage.getItem('longBreakTime');
+
+        if (savedPomodoroTime) pomodoroTime = parseInt(savedPomodoroTime);
+        if (savedShortBreakTime) shortBreakTime = parseInt(savedShortBreakTime);
+        if (savedLongBreakTime) longBreakTime = parseInt(savedLongBreakTime);
+
+        // Update modes with loaded settings
+        modes = {
+            pomodoro: pomodoroTime,
+            shortBreak: shortBreakTime,
+            longBreak: longBreakTime
+        };
+
+        // Update the timer display if we're on the main page
+        if (!window.location.pathname.includes('settings.html')) {
+            updateTimerDisplay();
+        }
+    }
+
+    // Save settings to localStorage
+    function saveSettings() {
+        localStorage.setItem('pomodoroTime', pomodoroTime);
+        localStorage.setItem('shortBreakTime', shortBreakTime);
+        localStorage.setItem('longBreakTime', longBreakTime);
+        
+        // Update modes with new settings
+        modes = {
+            pomodoro: pomodoroTime,
+            shortBreak: shortBreakTime,
+            longBreak: longBreakTime
+        };
+    }
+
+    // Reset settings to default
+    function resetSettings() {
+        pomodoroTime = 25;
+        shortBreakTime = 5;
+        longBreakTime = 15;
+        saveSettings();
+        
+        // Update the timer display if we're on the main page
+        if (!window.location.pathname.includes('settings.html')) {
+            updateTimerDisplay();
+        }
+    }
+
+    function updateTimerDisplay() {
+        const activeMode = document.querySelector('.mode-buttons button.active');
+        if (activeMode) {
+            const mode = activeMode.id;
+            minutes = modes[mode];
+            seconds = 0;
+            updateDisplay();
+        }
     }
 }); 

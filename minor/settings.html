@@ -3,194 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer Settings</title>
+    <title>Timer Settings - Study With Me</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        .settings-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .settings-title {
-            color: white;
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-<<<<<<< HEAD
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .timer-settings {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-=======
-        }
-
-        .timer-settings {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-        }
-
-        .setting-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .setting-group label {
-            display: block;
-            color: white;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-<<<<<<< HEAD
-            font-weight: 500;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-=======
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-        }
-
-        .setting-group input {
-            width: 100%;
-            padding: 0.8rem;
-<<<<<<< HEAD
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-=======
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1rem;
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-        }
-
-        .setting-group input:focus {
-            outline: none;
-<<<<<<< HEAD
-            border-color: rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-=======
-            border-color: rgba(255, 255, 255, 0.3);
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-        }
-
-        .save-settings {
-            background: white;
-            color: black;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-<<<<<<< HEAD
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-=======
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-        }
-
-        .save-settings:hover {
-            transform: translateY(-2px);
-<<<<<<< HEAD
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-=======
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-<<<<<<< HEAD
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-=======
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-        }
-
-        .back-button:hover {
-            transform: translateX(-5px);
-<<<<<<< HEAD
-            color: rgba(255, 255, 255, 0.9);
-=======
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-        }
-    </style>
 </head>
 <body>
-    <a href="index.html" class="back-button">
-        <i class="fas fa-arrow-left"></i>
-    </a>
-    
-    <div class="settings-container">
-        <h1 class="settings-title">Timer Settings</h1>
-        
-<<<<<<< HEAD
-        <form id="settingsForm" class="timer-settings" onsubmit="return false;">
-            <div class="setting-group">
-                <label for="pomodoroTime">Pomodoro Duration (minutes)</label>
-                <input type="number" id="pomodoroTime" name="pomodoroTime" min="1" max="60" value="25" required>
-=======
-        <div class="timer-settings">
+    <div class="container">
+        <div class="settings-header">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+            <h1>Timer Settings</h1>
+        </div>
+
+        <div class="settings-form">
             <div class="setting-group">
                 <label for="pomodoroTime">Pomodoro Duration (minutes)</label>
                 <input type="number" id="pomodoroTime" min="1" max="60" value="25">
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
             </div>
-            
+
             <div class="setting-group">
                 <label for="shortBreakTime">Short Break Duration (minutes)</label>
-<<<<<<< HEAD
-                <input type="number" id="shortBreakTime" name="shortBreakTime" min="1" max="30" value="5" required>
-=======
                 <input type="number" id="shortBreakTime" min="1" max="30" value="5">
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
             </div>
-            
+
             <div class="setting-group">
                 <label for="longBreakTime">Long Break Duration (minutes)</label>
-<<<<<<< HEAD
-                <input type="number" id="longBreakTime" name="longBreakTime" min="1" max="60" value="15" required>
-            </div>
-        </form>
-        
-        <button id="saveSettings" class="save-settings" type="button">
-=======
                 <input type="number" id="longBreakTime" min="1" max="60" value="15">
             </div>
+
+            <div class="setting-actions">
+                <button id="saveSettings" class="save-btn">
+                    <i class="fas fa-save"></i>
+                    Save Settings
+                </button>
+                <button id="resetSettings" class="reset-btn">
+                    <i class="fas fa-undo"></i>
+                    Reset to Default
+                </button>
+            </div>
         </div>
-        
-        <button id="saveSettings" class="save-settings">
->>>>>>> 08927bd5836098e1778a3352474609c7786156bd
-            <i class="fas fa-save"></i>
-            Save Settings
-        </button>
     </div>
 
-    <script src="settings.js"></script>
+    <div class="notification" id="settingsNotification">
+        <div class="notification-content">
+            <i class="fas fa-check-circle"></i>
+            <span>Settings saved successfully!</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html> 
