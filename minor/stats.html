@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Statistics</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        .stats-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .stats-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-card h3 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .stats-value {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-label {
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .streak-info {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .streak-flame {
+            color: #ff6b6b;
+        }
+
+        .time-distribution {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .time-distribution h3 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .chart-container {
+            height: 200px;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .bar-chart {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 100%;
+            padding: 0 1rem;
+        }
+
+        .bar {
+            width: 2rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: height 0.3s ease;
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
+
+        .graph-wrapper {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .graph-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+        }
+
+        .graph-container h3 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .graph-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .graph-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <div class="stats-container">
+        <h1 class="stats-title">Study Statistics</h1>
+
+        <div class="stats-grid">
+            <div class="stats-card">
+                <h3>Today's Focus Time</h3>
+                <div class="stats-value" id="todayTime">0h 0m</div>
+                <div class="stats-label">Total time studied today</div>
+            </div>
+
+            <div class="stats-card">
+                <h3>Weekly Focus Time</h3>
+                <div class="stats-value" id="weeklyTime">0h 0m</div>
+                <div class="stats-label">Total time this week</div>
+            </div>
+
+            <div class="stats-card">
+                <h3>Current Streak</h3>
+                <div class="stats-value" id="currentStreak">0</div>
+                <div class="stats-label">Days in a row</div>
+                <div class="streak-info">
+                    <i class="fas fa-fire streak-flame"></i>
+                    <span id="streakDays">Keep it up!</span>
+                </div>
+            </div>
+
+            <div class="stats-card">
+                <h3>Longest Streak</h3>
+                <div class="stats-value" id="longestStreak">0</div>
+                <div class="stats-label">Your record streak</div>
+            </div>
+        </div>
+
+        <div class="graph-grid">
+            <div class="graph-container">
+                <h3>Daily Study Trend</h3>
+                <div class="graph-wrapper">
+                    <canvas id="dailyTrendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="graph-container">
+                <h3>Time Distribution</h3>
+                <div class="graph-wrapper">
+                    <canvas id="timeDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <h3>Weekly Progress</h3>
+            <div class="graph-wrapper">
+                <canvas id="weeklyProgressChart"></canvas>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <h3>Monthly Overview</h3>
+            <div class="graph-wrapper">
+                <canvas id="monthlyOverviewChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="stats.js"></script>
+</body>
+</html> 
