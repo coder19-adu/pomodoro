@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let minutes = 25;
     let seconds = 0;
     let isRunning = false;
+    let isPaused = false;
     let completedPomodoros = 0;
     let isBreak = false;
     
@@ -77,11 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function startTimer() {
-        if (!isRunning) {
+        if (!isRunning || isPaused) {
             isRunning = true;
+            isPaused = false;
             watchDisplay.classList.add('active');
             startButton.disabled = true;
             stopButton.disabled = false;
+            stopButton.innerHTML = '<i class="fas fa-pause"></i> Pause';
             timer = setInterval(() => {
                 if (seconds === 0) {
                     if (minutes === 0) {
@@ -129,19 +132,77 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function stopTimer() {
-        clearInterval(timer);
-        isRunning = false;
-        watchDisplay.classList.remove('active');
-        startButton.disabled = false;
-        stopButton.disabled = true;
+        if (isRunning) {
+            if (!isPaused) {
+                // Pause the timer
+                clearInterval(timer);
+                isPaused = true;
+                stopButton.innerHTML = '<i class="fas fa-play"></i> Resume';
+                watchDisplay.classList.remove('active');
+            } else {
+                // Resume the timer
+                isPaused = false;
+                stopButton.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                watchDisplay.classList.add('active');
+                timer = setInterval(() => {
+                    if (seconds === 0) {
+                        if (minutes === 0) {
+                            clearInterval(timer);
+                            isRunning = false;
+                            watchDisplay.classList.remove('active');
+                            startButton.disabled = false;
+                            stopButton.disabled = true;
+                            
+                            // Play notification sound
+                            new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3').play();
+                            
+                            // Handle automatic breaks
+                            if (!isBreak) {
+                                completedPomodoros++;
+                                if (completedPomodoros % 4 === 0) {
+                                    // Long break after 4 pomodoros
+                                    setMode('longBreak');
+                                } else {
+                                    // Short break after each pomodoro
+                                    setMode('shortBreak');
+                                }
+                                isBreak = true;
+                            } else {
+                                // Return to pomodoro after break
+                                setMode('pomodoro');
+                                isBreak = false;
+                            }
+                            
+                            // Auto start the next timer
+                            setTimeout(() => {
+                                startTimer();
+                            }, 1000);
+                            
+                            return;
+                        }
+                        minutes--;
+                        seconds = 59;
+                    } else {
+                        seconds--;
+                    }
+                    updateDisplay();
+                }, 1000);
+            }
+        }
     }
     
     function restartTimer() {
-        stopTimer();
+        clearInterval(timer);
+        isRunning = false;
+        isPaused = false;
         const activeMode = document.querySelector('.mode-buttons button.active').id;
         minutes = modes[activeMode];
         seconds = 0;
         updateDisplay();
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        stopButton.innerHTML = '<i class="fas fa-pause"></i> Pause';
+        watchDisplay.classList.remove('active');
     }
     
     function updateDisplay() {
