@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('imgs/study.jpg');
+    background-image: url('../imgs/study.jpg');
     background-size:cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -35,6 +35,7 @@ body::before {
     width: 100%;
     max-width: 500px;
     text-align: center;
+    padding: 0;
 }
 
 .mode-buttons {
@@ -114,23 +115,60 @@ body::before {
 .control-buttons {
     display: flex;
     justify-content: center;
-    gap: 1rem;
     align-items: center;
-    margin-top: 1rem;
+    gap: 1rem;
+    margin: 2rem 0;
+    position: relative;
 }
 
-.control-buttons button {
-    padding: 1rem 2rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    background: transparent;
+.settings-btn,
+.stats-btn,
+.music-btn {
+    position: fixed;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.2);
     color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    padding: 1rem;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.settings-btn {
+    top: calc(50% - 40px);
+    transform: translateY(-50%);
+}
+
+.stats-btn {
+    top: calc(50% + 40px);
+    transform: translateY(-50%);
+}
+
+.settings-btn:hover,
+.stats-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) translateY(-50%);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.settings-btn:active,
+.stats-btn:active {
+    transform: scale(0.95) translateY(-50%);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.settings-btn i,
+.stats-btn i {
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .start-btn, .stop-btn, .restart-btn {
@@ -604,4 +642,41 @@ body::before {
     padding: 0.3rem 0.6rem;
     border-radius: 12px;
     font-size: 0.8rem;
+}
+
+.music-btn {
+    position: fixed;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 1rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    top: calc(50% + 120px);
+    transform: translateY(-50%);
+}
+
+.music-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) translateY(-50%);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.music-btn:active {
+    transform: scale(0.95) translateY(-50%);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.music-btn i {
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 } 

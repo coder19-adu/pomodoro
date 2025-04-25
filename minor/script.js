@@ -27,16 +27,41 @@ document.addEventListener('DOMContentLoaded', () => {
     let isRunning = false;
     let completedPomodoros = 0;
     let isBreak = false;
+    let currentMode = 'pomodoro';
     
-    // Initialize timer display
-    updateDisplay();
-    
-    // Timer mode settings
-    const modes = {
+    // Load timer settings
+    const timerSettings = JSON.parse(localStorage.getItem('timerSettings')) || {
         pomodoro: 25,
         shortBreak: 5,
         longBreak: 15
     };
+    
+    // Timer mode settings
+    const modes = {
+        pomodoro: timerSettings.pomodoro,
+        shortBreak: timerSettings.shortBreak,
+        longBreak: timerSettings.longBreak
+    };
+    
+    // Initialize timer display
+    updateDisplay();
+    
+    // Update timer settings when returning from settings page
+    window.addEventListener('focus', () => {
+        const newSettings = JSON.parse(localStorage.getItem('timerSettings'));
+        if (newSettings) {
+            modes.pomodoro = newSettings.pomodoro;
+            modes.shortBreak = newSettings.shortBreak;
+            modes.longBreak = newSettings.longBreak;
+            
+            // Update current timer if not running
+            if (!isRunning) {
+                minutes = modes[currentMode];
+                seconds = 0;
+                updateDisplay();
+            }
+        }
+    });
     
     // Event Listeners for mode buttons
     pomodoroButton.addEventListener('click', () => setMode('pomodoro'));
@@ -53,6 +78,24 @@ document.addEventListener('DOMContentLoaded', () => {
     taskInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             addTask();
+        }
+    });
+
+    // Listen for settings changes
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'timerSettings') {
+            const newSettings = JSON.parse(e.newValue);
+            modes.pomodoro = newSettings.pomodoro;
+            modes.shortBreak = newSettings.shortBreak;
+            modes.longBreak = newSettings.longBreak;
+            
+            // Update current timer if not running
+            if (!isRunning) {
+                const activeMode = document.querySelector('.mode-buttons button.active').id;
+                minutes = modes[activeMode];
+                seconds = 0;
+                updateDisplay();
+            }
         }
     });
     
@@ -93,6 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         // Play notification sound
                         new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3').play();
+                        
+                        // Update statistics when a pomodoro is completed
+                        if (!isBreak) {
+                            updateStats(modes.pomodoro);
+                        }
                         
                         // Handle automatic breaks
                         if (!isBreak) {
@@ -273,5 +321,57 @@ document.addEventListener('DOMContentLoaded', () => {
             taskInput.value = '';
             pomodoroEstimate.value = '';
         }
+    }
+
+    function updateStats(completedMinutes) {
+        // Get current stats
+        const stats = JSON.parse(localStorage.getItem('pomodoroStats')) || {
+            dailyStats: {},
+            currentStreak: 0,
+            longestStreak: 0,
+            lastStudyDate: null
+        };
+
+        const today = new Date().toLocaleDateString();
+        
+        // Initialize today's stats if they don't exist
+        if (!stats.dailyStats[today]) {
+            stats.dailyStats[today] = {
+                totalMinutes: 0,
+                completedPomodoros: 0
+            };
+        }
+        
+        // Update today's stats
+        stats.dailyStats[today].totalMinutes += completedMinutes;
+        stats.dailyStats[today].completedPomodoros += 1;
+        
+        // Update streak
+        if (stats.lastStudyDate) {
+            const lastDate = new Date(stats.lastStudyDate);
+            const currentDate = new Date();
+            const dayDifference = Math.floor((currentDate - lastDate) / (1000 * 60 * 60 * 24));
+            
+            if (dayDifference === 0) {
+                // Same day, streak continues
+            } else if (dayDifference === 1) {
+                // Next day, increment streak
+                stats.currentStreak += 1;
+                stats.longestStreak = Math.max(stats.currentStreak, stats.longestStreak);
+            } else {
+                // Streak broken
+                stats.currentStreak = 1;
+            }
+        } else {
+            // First time studying
+            stats.currentStreak = 1;
+            stats.longestStreak = 1;
+        }
+        
+        // Update last study date
+        stats.lastStudyDate = new Date().toISOString();
+        
+        // Save updated stats
+        localStorage.setItem('pomodoroStats', JSON.stringify(stats));
     }
 }); 
