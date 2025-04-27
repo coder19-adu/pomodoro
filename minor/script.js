@@ -53,8 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('input', validateTimerInput);
     });
 
-    // ===== Core Functions =====
-
     function startTimer() {
         if (isRunning && !isPaused) return;
         isRunning = true;
@@ -90,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         minutes = modes[currentMode];
         seconds = 0;
         updateDisplay();
-        toggleButtonState(false);
+        toggleButtonState(false);     
     }
 
     function timerCountdown() {
