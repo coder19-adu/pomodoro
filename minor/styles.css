@@ -1,3 +1,4 @@
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
@@ -10,10 +11,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../imgs/study.jpg');
-    background-size:cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url('../imgs/study.jpg') center/cover no-repeat;
     position: relative;
     padding: 20px;
 }
@@ -21,23 +19,21 @@ body {
 body::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: 0;
 }
 
+/* Container */
 .container {
     position: relative;
     z-index: 1;
     width: 100%;
     max-width: 500px;
     text-align: center;
-    padding: 0;
 }
 
+/* Mode Buttons */
 .mode-buttons {
     display: flex;
     justify-content: center;
@@ -53,17 +49,21 @@ body::before {
     color: white;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    transition: all 0.3s ease;
 }
 
-.mode-buttons button:hover {
-    transform: translateY(-2px);
+.mode-buttons button:hover,
+.start-btn:hover,
+.stop-btn:hover,
+.restart-btn:hover {
     background: white;
     color: #000;
     border-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
 .mode-buttons button.active {
@@ -73,6 +73,7 @@ body::before {
     box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
+/* Timer Display */
 .timer {
     margin: 1rem 0;
 }
@@ -85,6 +86,11 @@ body::before {
     padding: 2rem;
 }
 
+.watch-display.active {
+    animation: pulse 2s infinite;
+}
+
+/* Time Unit */
 .time-unit {
     display: flex;
     flex-direction: column;
@@ -92,10 +98,15 @@ body::before {
     gap: 0.5rem;
 }
 
-.time-unit span:first-child {
+.time-unit span:first-child,
+.separator {
     font-size: 3.5rem;
     font-weight: 600;
     color: #fff;
+}
+
+.separator {
+    margin-top: -2.1rem;
 }
 
 .time-unit .label {
@@ -105,22 +116,44 @@ body::before {
     letter-spacing: 1px;
 }
 
-.separator {
-    font-size: 3.5rem;
-    font-weight: 600;
-    color: #fff;
-    margin-top: -2.1rem;
-}
-
+/* Control Buttons */
 .control-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1rem;
     margin: 2rem 0;
-    position: relative;
 }
 
+.start-btn, .stop-btn, .restart-btn {
+    padding: 1rem 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    background: #fff;
+    color: #000;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.restart-btn {
+    padding: 1rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    justify-content: center;
+}
+
+.start-btn:active,
+.stop-btn:active,
+.restart-btn:active,
+.mode-buttons button:active {
+    transform: scale(0.90);
+}
+
+/* Side Buttons */
 .settings-btn,
 .stats-btn,
 .music-btn {
@@ -135,35 +168,12 @@ body::before {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    z-index: 1000;
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 1000;
     overflow: hidden;
     white-space: nowrap;
-}
-
-.settings-btn::after,
-.stats-btn::after,
-.music-btn::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    width: 0;
-    height: 100%;
-    background: white;
-    transition: width 0.3s ease;
-    z-index: -1;
-}
-
-.settings-btn span,
-.stats-btn span,
-.music-btn span {
-    display: none;
-    margin-left: 10px;
-    font-size: 0.9rem;
-    font-weight: 500;
 }
 
 .settings-btn:hover,
@@ -180,194 +190,32 @@ body::before {
     display: inline;
 }
 
+.settings-btn::after,
+.stats-btn::after,
+.music-btn::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background: white;
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
 .settings-btn:hover::after,
 .stats-btn:hover::after,
 .music-btn:hover::after {
     width: 100%;
 }
 
-.settings-btn:active,
-.stats-btn:active,
-.music-btn:active {
-    transform: scale(0.95) translateY(-50%);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
 .settings-btn i,
 .stats-btn i,
 .music-btn i {
     font-size: 1.5rem;
-    color: #000;
 }
 
-.start-btn, .stop-btn, .restart-btn {
-    padding: 1rem 2rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    background: transparent;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.start-btn:hover, .stop-btn:hover, .restart-btn:hover {
-    background: white;
-    color: #000;
-    border-color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-}
-
-.start-btn:active, .stop-btn:active, .restart-btn:active {
-    transform: scale(0.90);
-}
-
-.start-btn {
-    background: #fff;
-    color: black;
-    transition: all 0.3s ease;
-}
-
-.start-btn:hover {
-    background: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgb(253, 253, 253);
-}
-
-.start-btn:active {
-    transform: scale(0.90);
-    box-shadow: 0 2px 8px rgba(253, 253, 253);
-}
-
-.stop-btn {
-    background: #fff;
-    color: black;
-    transition: all 0.3s ease;
-}
-
-.stop-btn:hover {
-    background: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(253, 253, 253);
-}
-
-.stop-btn:active {
-    transform: scale(0.90);
-    box-shadow: 0 2px 8px rgba(253, 253, 253);
-}
-
-.restart-btn {
-    background: #fff;
-    color: black;
-    padding: 1rem;
-    width: 3.5rem;
-    height: 3.5rem;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.restart-btn:hover {
-    background: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(253, 253, 253);
-}
-
-.restart-btn:active {
-    transform: scale(0.90);
-    box-shadow: 0 2px 8px rgba(253, 253, 253);
-}
-
-.restart-btn i {
-    font-size: 1.2rem;
-}
-
-/* Animations */
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.02);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.watch-display.active {
-    animation: pulse 2s infinite;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-    
-    h1 {
-        font-size: 1.5rem;
-    }
-    
-    .mode-buttons {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .mode-buttons button {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .watch-display {
-        padding: 1.5rem;
-    }
-    
-    .time-unit span:first-child {
-        font-size: 2.5rem;
-    }
-    
-    .separator {
-        font-size: 2.5rem;
-    }
-    
-    .control-buttons {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .control-buttons button {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .add-task {
-        flex-direction: column;
-    }
-    
-    .add-task input[type="number"] {
-        width: 100%;
-    }
-    
-    .task-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .task-content {
-        width: 100%;
-    }
-    
-    .task-pomodoros {
-        margin-left: 0;
-        margin-top: 0.5rem;
-    }
-}
-
+/* Task List */
 .tasks-section {
     margin-top: 2rem;
     padding: 1rem;
@@ -395,19 +243,27 @@ body::before {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     margin-bottom: 0.5rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.task-item:hover {
+.task-item:hover,
+.task-item.priority {
     background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .task-item.priority {
-    background: rgba(255, 255, 255, 0.2);
     border-left: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.task-item.completed {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.task-item.completed .task-text {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .task-checkbox {
@@ -417,8 +273,8 @@ body::before {
     border-radius: 4px;
     cursor: pointer;
     position: relative;
-    transition: all 0.3s ease;
     flex-shrink: 0;
+    transition: all 0.3s ease;
 }
 
 .task-checkbox.checked {
@@ -456,15 +312,7 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.task-item.completed {
-    opacity: 0.5;
-    text-decoration: line-through;
-}
-
-.task-item.completed .task-text {
-    color: rgba(255, 255, 255, 0.5);
-}
-
+/* Add Task Section */
 .add-task {
     display: flex;
     gap: 0.5rem;
@@ -474,48 +322,31 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.add-task input[type="text"] {
+.add-task input[type="text"],
+.add-task input[type="number"] {
     flex: 1;
     padding: 0.8rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     font-size: 0.9rem;
-    transition: all 0.3s ease;
     background: rgba(255, 255, 255, 0.1);
     color: white;
-}
-
-.add-task input[type="text"]::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.add-task input[type="text"]:focus {
-    border-color: rgba(255, 255, 255, 0.3);
-    outline: none;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.add-task input[type="number"] {
-    width: 100px;
-    padding: 0.8rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    font-size: 0.9rem;
     transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
 }
 
+.add-task input[type="text"]::placeholder,
 .add-task input[type="number"]::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
+.add-task input[type="text"]:focus,
 .add-task input[type="number"]:focus {
     border-color: rgba(255, 255, 255, 0.3);
-    outline: none;
     background: rgba(255, 255, 255, 0.2);
+    outline: none;
 }
 
+/* Save Button */
 .save-btn {
     padding: 0.8rem 1.5rem;
     border: 2px solid rgba(0, 0, 0, 0.3);
@@ -532,16 +363,11 @@ body::before {
 .save-btn:hover {
     background: white;
     color: #000;
-    border-color: 2px solid rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
-.save-btn:active {
-    transform: scale(0.90);
-}
-
-/* Scrollbar styling for task list */
+/* Scrollbar */
 .task-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -560,6 +386,36 @@ body::before {
     background: grey;
 }
 
+/* Animations */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(100%); opacity: 0; }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    body { padding: 10px; }
+    h1 { font-size: 1.5rem; }
+    .mode-buttons, .control-buttons { flex-direction: column; gap: 0.5rem; }
+    .mode-buttons button, .control-buttons button { width: 100%; justify-content: center; }
+    .watch-display { padding: 1.5rem; }
+    .time-unit span:first-child, .separator { font-size: 2.5rem; }
+    .add-task { flex-direction: column; }
+    .add-task input[type="number"] { width: 100%; }
+    .task-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+}
+
+/* Notification */
 .notification {
     position: fixed;
     bottom: -100px;
@@ -584,37 +440,7 @@ body::before {
     gap: 0.5rem;
 }
 
-.notification-content i {
-    font-size: 1.2rem;
-}
-
-.notification-content span {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-@keyframes slideUp {
-    0% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideDown {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-}
-
+/* Priority Section */
 .priority-section {
     margin-bottom: 1rem;
     padding: 0.3rem 0;
@@ -630,7 +456,6 @@ body::before {
 
 .priority-task {
     padding: 0.5rem 0;
-    transition: all 0.3s ease;
     display: flex;
     justify-content: center;
 }
@@ -640,28 +465,21 @@ body::before {
     padding-left: 1rem;
 }
 
-.priority-placeholder {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #fff;
-    font-size: 0.9rem;
-    justify-content: center;
-}
-
-.priority-placeholder i {
-    color: #fff;
-}
-
+.priority-placeholder,
 .priority-content {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
+}
+
+.priority-placeholder i,
+.priority-text {
+    color: #fff;
 }
 
 .priority-text {
     font-size: 1rem;
-    color: #fff;
     font-weight: 500;
 }
 
@@ -673,7 +491,7 @@ body::before {
     font-size: 0.8rem;
 }
 
-/* Settings Panel Styles */
+/* Settings Panel */
 .settings-panel {
     position: fixed;
     top: 0;
@@ -684,7 +502,6 @@ body::before {
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
     transition: right 0.3s ease;
     z-index: 1000;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -734,276 +551,3 @@ body::before {
     overflow-y: auto;
 }
 
-.setting-group {
-    margin-bottom: 1.5rem;
-}
-
-.setting-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: white;
-    font-weight: 500;
-}
-
-.setting-group input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    transition: all 0.3s ease;
-}
-
-.setting-group input:focus {
-    outline: none;
-    border-color: rgba(255, 255, 255, 0.3);
-    background-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-.setting-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-.save-btn, .reset-btn {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    flex: 1;
-}
-
-.save-btn {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-}
-
-.save-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-}
-
-.reset-btn {
-    background-color: rgba(255, 0, 0, 0.2);
-    color: white;
-}
-
-.reset-btn:hover {
-    background-color: rgba(255, 0, 0, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.1);
-}
-
-#settingsNotification {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Add these variables if they don't exist */
-:root {
-    --primary-color: #4CAF50;
-    --primary-color-dark: #388E3C;
-    --primary-color-rgb: 76, 175, 80;
-    --text-color: #333;
-}
-
-.settings-btn {
-    top: calc(50% - 60px);
-    transform: translateY(-50%);
-}
-
-.stats-btn {
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.music-btn {
-    top: calc(50% + 60px);
-    transform: translateY(-50%);
-}
-
-/* Stats Page Styles */
-.stats-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.stats-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.stats-header h1 {
-    color: white;
-    font-size: 2rem;
-    margin: 0;
-}
-
-.back-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: white;
-    text-decoration: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-}
-
-.back-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateX(-5px);
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.stat-card {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.stat-icon {
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-}
-
-.stat-content {
-    flex: 1;
-}
-
-.stat-content h3 {
-    color: white;
-    font-size: 1rem;
-    margin: 0 0 0.5rem 0;
-    opacity: 0.9;
-}
-
-.stat-content p {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-}
-
-.streak-info {
-    color: white;
-    font-size: 0.9rem;
-    opacity: 0.8;
-    margin-top: 0.5rem;
-    display: block;
-}
-
-.stats-chart {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.stats-chart h2 {
-    color: white;
-    font-size: 1.2rem;
-    margin: 0 0 1.5rem 0;
-    text-align: center;
-}
-
-.chart-container {
-    height: 300px;
-    position: relative;
-}
-
-.stats-actions {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
-.reset-btn {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 0, 0, 0.2);
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.reset-btn:hover {
-    background: rgba(255, 0, 0, 0.3);
-    transform: translateY(-2px);
-}
-
-@media (max-width: 600px) {
-    .stats-container {
-        padding: 1rem;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .stat-card {
-        padding: 1rem;
-    }
-    
-    .stat-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-    }
-    
-    .stat-content h3 {
-        font-size: 0.9rem;
-    }
-    
-    .stat-content p {
-        font-size: 1.2rem;
-    }
-} 
