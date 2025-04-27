@@ -31,6 +31,8 @@ body::before {
     width: 100%;
     max-width: 500px;
     text-align: center;
+    margin: 2rem auto;
+    padding: 0 1rem;
 }
 
 /* Mode Buttons */
@@ -176,6 +178,29 @@ body::before {
     white-space: nowrap;
 }
 
+.settings-btn {
+    top: 50%;
+    transform: translateY(-150%);
+}
+
+.stats-btn {
+    top: 50%;
+    transform: translateY(0);
+}
+
+.music-btn {
+    top: 50%;
+    transform: translateY(150%);
+}
+
+.settings-btn span,
+.stats-btn span,
+.music-btn span {
+    display: none;
+    margin-left: 10px;
+    font-size: 0.9rem;
+}
+
 .settings-btn:hover,
 .stats-btn:hover,
 .music-btn:hover {
@@ -187,7 +212,7 @@ body::before {
 .settings-btn:hover span,
 .stats-btn:hover span,
 .music-btn:hover span {
-    display: inline;
+    display: inline-block;
 }
 
 .settings-btn::after,
@@ -213,6 +238,14 @@ body::before {
 .stats-btn i,
 .music-btn i {
     font-size: 1.5rem;
+    margin-right: 0;
+    transition: margin-right 0.3s ease;
+}
+
+.settings-btn:hover i,
+.stats-btn:hover i,
+.music-btn:hover i {
+    margin-right: 10px;
 }
 
 /* Task List */
@@ -413,6 +446,9 @@ body::before {
     .add-task { flex-direction: column; }
     .add-task input[type="number"] { width: 100%; }
     .task-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .container { margin: 1rem auto; }
+    .settings-form { padding: 1.5rem; }
+    .setting-actions { flex-direction: column; }
 }
 
 /* Notification */
@@ -513,23 +549,131 @@ body::before {
 
 .settings-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: rgba(0, 0, 0, 0.7);
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-.settings-header h2 {
-    margin: 0;
+.settings-header h1 {
     color: white;
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 1.8rem;
+    margin: 0;
 }
 
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-5px);
+}
+
+.settings-form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.setting-group {
+    margin-bottom: 1.5rem;
+}
+
+.setting-group label {
+    display: block;
+    color: white;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.setting-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.setting-group input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.setting-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.save-btn, .reset-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.save-btn {
+    background: white;
+    color: #000;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+.reset-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.reset-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+#settingsNotification {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: #000;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: bottom 0.5s ease;
+    z-index: 1000;
+}
+
+#settingsNotification.show {
+    bottom: 20px;
+}
+
+/* Settings Page */
 .close-btn {
     background: none;
     border: none;
@@ -541,13 +685,15 @@ body::before {
 }
 
 .close-btn:hover {
-    transform: rotate(90deg);
-    color: rgba(255, 255, 255, 0.8);
+    animation: spin 0.5s ease-in-out;
 }
 
-.settings-form {
-    padding: 1.5rem;
-    flex: 1;
-    overflow-y: auto;
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
