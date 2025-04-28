@@ -148,64 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    function createTimeDistributionChart(stats) {
-        const ctx = document.getElementById('timeDistributionChart');
-        if (!ctx) return;
-
-        const today = new Date();
-        const timeSlots = {
-            'Morning (6-12)': 0,
-            'Afternoon (12-18)': 0,
-            'Evening (18-24)': 0,
-            'Night (0-6)': 0
-        };
-
-        // Calculate time distribution for the last 7 days
-        for (let i = 0; i < 7; i++) {
-            const date = new Date(today);
-            date.setDate(date.getDate() - i);
-            const dateString = date.toLocaleDateString();
-            const dayStats = stats.dailyStats[dateString];
-            
-            if (dayStats && dayStats.timeSlots) {
-                Object.keys(dayStats.timeSlots).forEach(slot => {
-                    timeSlots[slot] += dayStats.timeSlots[slot] || 0;
-                });
-            }
-        }
-
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(timeSlots),
-                datasets: [{
-                    data: Object.values(timeSlots),
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
-                        'rgba(255, 206, 86, 0.8)',
-                        'rgba(75, 192, 192, 0.8)'
-                    ],
-                    borderColor: 'rgba(255, 255, 255, 0.2)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            color: 'white'
-                        }
-                    }
-                }
-            }
-        });
-    }
-
     function createWeeklyProgressChart(stats) {
         const ctx = document.getElementById('weeklyProgressChart');
         if (!ctx) return;
