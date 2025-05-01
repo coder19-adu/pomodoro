@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function createCharts() {
         const stats = getStats();
         createDailyTrendChart(stats);
-        createTimeDistributionChart(stats);
         createWeeklyProgressChart(stats);
         createMonthlyOverviewChart(stats);
     }

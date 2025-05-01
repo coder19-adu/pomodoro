@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        // Initialize Chart.js
+        Chart.defaults.color = '#fff';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+    </script>
     <style>
         .stats-container {
             max-width: 800px;
@@ -134,11 +139,15 @@
             height: 300px;
             width: 100%;
             margin-top: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
         }
 
         canvas {
             width: 100% !important;
             height: 100% !important;
+            display: block;
         }
 
         .graph-grid {
@@ -155,6 +164,7 @@
             margin-bottom: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
             width: 100%;
+            min-height: 400px;
         }
 
         .graph-container h3 {
